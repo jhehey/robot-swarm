@@ -1,0 +1,18 @@
+#ifndef __MYPINS_H__
+#define __MYPINS_H__
+
+
+#define RIGHTMOTOR_BACKWARD 2
+#define RIGHTMOTOR_FORWARD 3
+#define LEFTMOTOR_BACKWARD 4
+#define LEFTMOTOR_FORWARD 5
+
+#define ULTRASONIC_TRIG 6
+#define ULTRASONIC_ECHO 7
+
+#define RFNETWORK_CE 8
+#define RFNETWORK_CS 9
+
+#define SERVO_PIN 10
+
+#endif
