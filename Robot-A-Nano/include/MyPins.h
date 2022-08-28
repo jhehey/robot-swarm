@@ -15,4 +15,6 @@
 
 #define SERVO_PIN 10
 
+#define SPEED_SENSOR_PIN A5
+
 #endif

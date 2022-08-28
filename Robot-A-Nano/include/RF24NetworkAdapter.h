@@ -25,7 +25,8 @@ const uint16_t node_address_set[5] = { 00, 01, 02, 03, 04 };
 
 RF24 radio(RFNETWORK_CE, RFNETWORK_CS);                           // CE & CS pins to use (Using 7,8 on Uno,Nano)
 RF24Network network(radio);
- 
+
+const uint8_t rfDelay = 150; 
 const uint8_t radioChannel = 100;						// Channel for all nodes in the network
 uint16_t thisNode;                          // Our node address
 char dataBuffer[MAX_PAYLOAD_SIZE];					// Default payload size is 144 bytes (RF24Network_config.h)
@@ -55,7 +56,7 @@ void SetupRF24Network(uint8_t address, receiveCallback_t receiveCallback) // TOD
     }
   }
 
-	radio.setPALevel(RF24_PA_HIGH);
+	radio.setPALevel(RF24_PA_LOW);
   radio.setChannel(radioChannel);
   network.begin(/*node address*/ thisNode);
   Serial.println("RF24 - Radio setup successful...");
@@ -92,11 +93,14 @@ bool SendMessage(uint8_t to, const char* message)
 		Serial.print(" msg: ");
 		Serial.println(dataBuffer);
 	#endif
+
+	delay(rfDelay);
 }
 
 void ReceiveMessage(RF24NetworkHeader& header, uint16_t& payloadSize)
 {
 	network.read(header, &dataBuffer, payloadSize);
+
 
 	#if defined(DEBUG_MODE)
 		Serial.print("RF24 - Received Message: ");
@@ -104,6 +108,8 @@ void ReceiveMessage(RF24NetworkHeader& header, uint16_t& payloadSize)
 	#endif
 
 	receiveMessageCallback(dataBuffer);
+
+	delay(rfDelay);
 }
 
 

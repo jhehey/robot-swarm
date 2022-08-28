@@ -8,6 +8,8 @@
 float compassDeclanationAngle;
 
 void SetupCompass(float declanationAngle = 0.22) {
+	Serial.println("Setup Compass...");
+
 	compassDeclanationAngle = declanationAngle;
 	Wire.begin();  
   //Put the HMC5883 IC into the correct operating mode
