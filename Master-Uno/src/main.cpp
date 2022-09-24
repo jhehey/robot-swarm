@@ -20,17 +20,25 @@ void setup() {
 void loop() {
 	UpdateRF24Network();
 
-  // put your main code here, to run repeatedly:
-	if(testTimer.repeat()) {
-		Serial.print("Hello from Master");
-		Serial.println(millis());
-		SendMessage(ROBOT_NODE_A, "Hello from Master");
-		SendMessage(ROBOT_NODE_B, "Hello from Master");
+	if(Serial.available() > 0){
+		char ch = Serial.read();
+		Serial.println(ch);
+		SendMessage(ROBOT_NODE_A, &ch);
+		// SendMessage(ROBOT_NODE_B, &ch);
+		Serial.flush();
 	}
+
+  // // put your main code here, to run repeatedly:
+	// if(testTimer.repeat()) {
+	// 	Serial.print("Hello from Master");
+	// 	Serial.println(millis());
+	// 	SendMessage(ROBOT_NODE_A, "Hello from Master");
+	// 	SendMessage(ROBOT_NODE_B, "Hello from Master");
+	// }
 }
 
 void handleMessageReceived(char* message)
 {
-	Serial.print("Main - Received Message: ");
-	Serial.println(message);
+	// Serial.print("Main - Received Message: ");
+	// Serial.println(message);
 }

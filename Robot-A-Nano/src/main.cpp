@@ -7,6 +7,7 @@
 #include "MotorAdapter.h"
 #include "ServoAdapter.h"
 #include "SpeedSensorAdapter.h"
+#include <string.h>
 
 Neotimer sensorReadingTimer;
 
@@ -29,15 +30,13 @@ void setup() {
 	SetupRF24Network(ROBOT_NODE_A, handleMessageReceived);
 	SetupMotor();
 	SetupServo();
-	SetupCompass();
+	// SetupCompass();
 	SetupSpeedSensor();
 	StartReadSpeedTimer();
 	sensorReadingTimer.set(3000);
 }
 
 void loop() {
-	Serial.println("Loop Start");
-
 	UpdateRF24Network();
 	ServoScanLoop();
 	ReadSpeedLoop(speedCmPerSec);
@@ -47,8 +46,8 @@ void loop() {
 	}
 
 
-	tester();
-	// tester2();
+	// tester();
+	tester2();
 }
 
 void handleMessageReceived(char* message)
@@ -67,18 +66,28 @@ void handleReadSensor() {
 	// Compass
 	ReadCompass(compassX, compassY, compassZ, headingDegrees);
 
-	// Speed Sensor
-	// ReadSpeed(speedRps);
+	Serial.print("d: ");
+	Serial.print(distanceCM);
+	Serial.print(" | x: ");
+	Serial.print(compassX);
+	Serial.print(" | y: ");
+	Serial.print(compassY);
+	Serial.print(" | z: ");
+	Serial.print(compassZ);
+	Serial.print(" | heading: ");
+	Serial.print(headingDegrees);
+	Serial.print(" | speed: ");
+	Serial.println(speedCmPerSec);
 
-	String toSend = String(distanceCM) + ',' + 
+	 String toSend = String(distanceCM) + ',' + 
 		String(compassX) + ',' +
 		String(compassY) + ',' +
 		String(compassZ) + ',' +
 		String(headingDegrees) + ',' + 
 		String(speedCmPerSec);
 
-	// Serial.print("ToSend: ");
-	// Serial.println(toSend);
+	Serial.print("ToSend: ");
+	Serial.println(toSend);
 	toSend.toCharArray(mainBuffer, MAX_PAYLOAD_SIZE);
 	SendMessage(MASTER_NODE, mainBuffer);
 }
